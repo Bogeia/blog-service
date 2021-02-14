@@ -13,8 +13,8 @@ type Model struct {
 	Created  string `json:"created"`
 	Modified string `json:"modified"`
 	Ctime    string `json:"ctime"`
-	UTime    string `json:"utime"`
-	DTime    string `json:"dtime"`
+	Utime    string `json:"utime"`
+	Dtime    string `json:"dtime"`
 	IsDel    uint8  `json:"is_del"`
 }
 
