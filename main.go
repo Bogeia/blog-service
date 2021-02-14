@@ -27,6 +27,10 @@ func init() {
 	}
 }
 
+// @title 博客系统
+// @version 1.0
+// @description Golang 博客系统
+// @termsOfService https://github.com/Bogeia/blog-service
 func main() {
 	global.Logger.Infof("%s", "blog-service") // 测试日志功能那是否正常
 	router := routers.NewRouter()
