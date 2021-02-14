@@ -94,7 +94,6 @@ func (l *Logger) WithCaller(skip int) *Logger {
 		f := runtime.FuncForPC(pc)
 		ll.callers = []string{fmt.Sprintf("%s: %d %s", file, line, f.Name())}
 	}
-
 	return ll
 }
 
