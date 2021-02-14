@@ -4,7 +4,9 @@ import (
 	"github.com/blog-service/global"
 	"github.com/blog-service/internal/model"
 	"github.com/blog-service/internal/routers"
+	"github.com/blog-service/pkg/logger"
 	"github.com/blog-service/pkg/setting"
+	"gopkg.in/natefinch/lumberjack.v2"
 	"log"
 	"net/http"
 	"time"
@@ -19,9 +21,14 @@ func init() {
 	if err != nil {
 		log.Fatalf("init.setupDBEngine err: %v", err)
 	}
+	err = setupLogger()
+	if err != nil {
+		log.Fatalf("init.setupLogger err: %v", err)
+	}
 }
 
 func main() {
+	global.Logger.Infof("%s", "blog-service") // 测试日志功能那是否正常
 	router := routers.NewRouter()
 	s := &http.Server{
 		Addr:           ":" + global.ServerSetting.HttpPort,
@@ -63,6 +70,18 @@ func setupDBEngine() error {
 	if err != nil {
 		return err
 	}
+
+	return nil
+}
+
+func setupLogger() error {
+	fileName := global.AppSetting.LogSavePath + "/" + global.AppSetting.LogFileName + global.AppSetting.LogFileExt
+	global.Logger = logger.NewLogger(&lumberjack.Logger{
+		Filename:  fileName,
+		MaxSize:   600, // 日志最大占用空间600MB
+		MaxAge:    10,  // 日志最大生存周期10天
+		LocalTime: true,
+	}, "", log.LstdFlags).WithCaller(2)
 
 	return nil
 }
